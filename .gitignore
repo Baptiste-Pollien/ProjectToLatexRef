@@ -1,0 +1,12 @@
+**/__pycache__
+*.aux
+*.glob
+*.vo
+*.vok
+*.vos
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
+*.out
