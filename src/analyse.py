@@ -1,63 +1,35 @@
 """
 File containing the main function analysis
 """
-import subprocess
-
-file_cite = "\\filecite"
-def_cite = "\\defcite"
-
-def pwd():
-    process = subprocess.Popen("pwd".split(), stdout=subprocess.PIPE)
-    output, error = process.communicate()
-    print(output, error)
+from src.analyse_files import *
+from src.analyse_definitions import *
 
 def file_latex_macro(cmd, code):
+    """
+    Generation of the Latex command
+    """
     return "\n\\newcommand" + cmd + "[3]{\n" + code + "\n}\n\n"
 
 def write_latex_macro(file, data):
+    """
+    Generate the Latex commands for the files and the definitions
+    """
     if 'function_code' in data:
-        file.write(file_latex_macro(file_cite, data['function_code']))
+        file.write(file_latex_macro(file_cite(), data['function_code']))
     else:
-        print("[Error] Excpeted function_code")
+        print("[Error] Expeted function_code")
         exit(1)
 
     if 'def_code' in data:
-        file.write(file_latex_macro(def_cite, data['def_code']))
+        file.write(file_latex_macro(def_cite(), data['def_code']))
     else:
-        print("[Error] Excpeted function_code")
+        print("[Error] Expeted function_code")
         exit(1)
-
-def analyse_file_name(data, file_name):
-    if 'name' not in file_name:
-        print("[Error] Missing name for the file: {}".format(str(file_name)))
-        exit(1)
-    name = file_name['name']
-    if 'cmd' not in file_name:
-        print("[Error] Missing cmd for the file: {}".format(str(file_name)))
-        exit(1)
-
-
-    # Find the file path
-    ppath=data['project_path']
-    cmd="find {} -name {}".format(ppath, name)
-    process = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
-    output, error = process.communicate()
-
-    path=str(output).replace("b\'"+ppath, '').replace('\\n\'', '')
-
-    url = data['base_url'] + path
-
-    return "\\newcommand\\{}{{{}{{{}}}{{{}}}{{{}}}}}\n\n".format(file_name['cmd'], file_cite, url, name, path)
-
-def analyse_file_names(file, data):
-    for f in data['files']:
-        file.write(analyse_file_name(data, f))
-
-def analyse_definitons(file, definitons):
-    #file.write(str(definitons))
-    pass
 
 def analyse(data):
+    """
+    Analysis of the project
+    """
     # Testing if the configuration file contains the required information
     if 'base_url' not in data:
         print("[Error] Impossible to read the field \'base_url\'")
@@ -78,6 +50,7 @@ def analyse(data):
 
     except:
         print("Could not open {} output file...".format(data['output_file']))
+        exit(1)
 
     write_latex_macro(f, data)
 
