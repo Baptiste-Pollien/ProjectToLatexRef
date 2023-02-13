@@ -2,7 +2,7 @@
 
 Definition plus1 x := x + 1.
 
-Lemma  plus1_lt:
+Lemma    plus1_lt:
     forall x,
         x < plus1 x.
 Proof. lia. Qed.

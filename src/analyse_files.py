@@ -28,9 +28,17 @@ def analyse_file_name(data, file_name):
     process = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
     output, _ = process.communicate()
 
-    path=str(output).replace("b\'"+ppath, '').replace('\\n\'', '')
+    path=str(output).replace("b\'"+ppath, '')\
+                    .replace("b\""+ppath, '')\
+                    .replace('\\n\'', '')
+
+    if name not in path:
+        print("[Error] The file {} was not found...".format(name))
+        exit(1)
 
     url = data['base_url'] + path
+    path = path.replace("_", "\\_")
+    name = name.replace("_", "\\_")
 
     # Generation of the Latex code
     return "\\newcommand\\{}{{{}{{{}}}{{{}}}{{{}}}}}\n\n".format(file_name['cmd'], file_cite(), url, name, path)

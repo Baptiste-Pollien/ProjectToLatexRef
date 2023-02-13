@@ -29,9 +29,9 @@ def analyse_definition(data, definition):
     name = definition['name']
 
     if 'keyword' not in definition:
-        match = "\"^{}\"".format(name)
+        match = "\"^[ ]*{}\"".format(name)
     else:
-        match = "^{}.*{}".format(definition['keyword'], name)
+        match = "^[ ]*{}[ ]*{}".format(definition['keyword'], name)
 
     if 'file_type' not in definition:
         cmd=["grep", "-r", "-n", match,ppath]
@@ -42,22 +42,49 @@ def analyse_definition(data, definition):
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     output, error = process.communicate()
 
-    # Get the first output
-    try:
-        res = str(output).replace("b\'", '')\
-                         .split("\\n")[0]\
-                         .replace(ppath, '')\
-                         .split(":")
-    except:
+    if name not in str(output):
+        print("[Error] The definition {} was not found...".format(name))
+        exit(1)
+
+    res = str(output).replace("b\"", '')\
+                     .replace("b\'", '')\
+                     .split("\\n")
+
+    if len(res) <= 1:
         print("[Error] {} not found...\n".format(name))
         print(error)
         exit(1)
 
+    if len(res) > 2 and ('file' not in definition):
+        print("[Warning] Multiple definition of {}. You should use the field \'file\'.".format(name))
+
+    if (len(res) == 2) or ('file' not in definition):
+        res = res[0].replace(ppath, '')\
+                 .split(":")
+    else:
+        file = definition['file']
+        found = False
+
+        for el in res:
+            if file in el:
+                found = True
+                res = el.replace(ppath, '')\
+                        .split(":")
+                break
+        
+        if not found:
+            print("[Error] {} not found...\n".format(name))
+            exit(1)
+        
+
     path = res[0]
     line = res[1]
-    name = name.replace("_", "\\_")
 
     url = data['base_url'] + path +"\\#L" + line
+
+    # Fix Latex Code
+    name = name.replace("_", "\\_")
+    path = path.replace("_", "\\_")
 
     # Generation of the Latex code
     return "\\newcommand\\{}{{{}{{{}}}{{{}}}{{{}}}}}\n\n"\

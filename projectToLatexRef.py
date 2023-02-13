@@ -12,4 +12,5 @@ if __name__ == "__main__":
                 data = json.load(f)
         except:
             print("Could not read {} file...".format(sys.argv[1]))
+            exit(1)
         analyse.analyse(data)

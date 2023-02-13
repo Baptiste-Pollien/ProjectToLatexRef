@@ -54,4 +54,6 @@ needed to build the Latex references. You can look at
       optinnal.
     * `file_type`: The type of file to search. For example `*.c`, to
       restrict the research to C files.
+    * `file`: Specify the name of the file containing the definition. If
+      there is multiple definitions, the first found is returned.
 
