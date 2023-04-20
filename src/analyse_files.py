@@ -36,6 +36,10 @@ def analyse_file_name(data, file_name):
         print("[Error] The file {} was not found...".format(name))
         exit(1)
 
+    if "\\n" in path:
+        print("[Error] Multiple definition of {}...".format(name))
+        exit(1)
+
     url = data['base_url'] + path
     path = path.replace("_", "\\_")
     name = name.replace("_", "\\_")
