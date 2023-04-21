@@ -87,8 +87,13 @@ def analyse_definition(data, definition):
     path = path.replace("_", "\\_")
 
     # Generation of the Latex code
-    return "\\newcommand\\{}{{{}{{{}}}{{{}}}{{{}}}}}\n\n"\
-            .format(lcmd, def_cite(), url, name, path + ":" + line)
+    latex_code = "\\newcommand\\{}{{{}{{{}}}{{{}}}{{{}}}}}"\
+                .format(lcmd, def_cite(), url, name, path + ":" + line)
+
+    if 'href' in definition and bool(definition['href']):
+        return "{}\n\\newcommand\\{}Href{{\\href{{{}}}{{\\texttt{{{}}}}}}}\n\n".format(latex_code, lcmd, url, name)
+    else:
+        return latex_code + "\n\n"
 
 def analyse_definitons(file, data):
     """

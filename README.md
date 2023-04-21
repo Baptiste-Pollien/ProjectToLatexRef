@@ -56,4 +56,5 @@ needed to build the Latex references. You can look at
       restrict the research to C files.
     * `file`: Specify the name of the file containing the definition. If
       there is multiple definitions, the first found is returned.
+    * `href`: boolean value to define if an href should be generated (`\href{$url}{\texttt{$name}}`). The name will be `name`++`Href`.
 
