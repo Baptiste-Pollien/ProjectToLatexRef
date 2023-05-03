@@ -52,7 +52,8 @@ def analyse(data):
         print("Could not open {} output file...".format(data['output_file']))
         exit(1)
 
-    write_latex_macro(f, data)
+    if 'disable_macro' not in data or (not bool(data['disable_macro'])):
+        write_latex_macro(f, data)
 
     # Analyse part
     if 'files' in data:

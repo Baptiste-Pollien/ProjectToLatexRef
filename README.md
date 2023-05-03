@@ -58,3 +58,7 @@ needed to build the Latex references. You can look at
       there is multiple definitions, the first found is returned.
     * `href`: boolean value to define if an href should be generated (`\href{$url}{\texttt{$name}}`). The name will be `name`++`Href`.
 
+- `disable_macro`: This boolean parameter is optional and disables the
+  generation of `\filecite` and `\defcite` commands. It can be useful if
+  you want to define this macro externally or if you use this tool for
+  multiple projects.
