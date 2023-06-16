@@ -56,7 +56,10 @@ needed to build the Latex references. You can look at
       restrict the research to C files.
     * `file`: Specify the name of the file containing the definition. If
       there is multiple definitions, the first found is returned.
-    * `href`: boolean value to define if an href should be generated (`\href{$url}{\texttt{$name}}`). The name will be `name`++`Href`.
+    * `href`: boolean value to define if an href should be generated
+      (`\href{$url}{\texttt{$name}}`). The name will be `name`++`Href`.
+    * `end_parse`: specify a matching string to add after the name. If this
+      option is not used, the last matching definition will be taken.
 
 - `disable_macro`: This boolean parameter is optional and disables the
   generation of `\filecite` and `\defcite` commands. It can be useful if

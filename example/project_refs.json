@@ -12,6 +12,8 @@
         { "name": "plus1", "keyword": "Definition", "file_type": "*.v", "cmd": "plusUn"},
         { "name": "plus1_lt", "keyword": "Lemma", "file_type": "*.v", "cmd": "pluslt"},
         { "name": "position", "keyword": "Record", "file_type": "*.v", "cmd": "position"},
-        { "name": "plus1_twice", "keyword": "Theorem", "file_type": "*.v", "cmd": "plusUntwice", "href": "true"}
+        { "name": "plus1_twice", "keyword": "Theorem", "file_type": "*.v", "cmd": "plusUntwice", "href": "true"},
+        { "name": "plus1", "keyword": "Theorem", "file_type": "*.v", "cmd": "plusUnT", "href": "true", "file": "test1.v"},
+        { "name": "plus1", "keyword": "Theorem", "file_type": "*.v", "cmd": "plusUnTD", "href": "true", "file": "test1.v", "end_parse": " :"}
     ]
 }

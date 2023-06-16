@@ -21,3 +21,13 @@ Theorem plus1_twice:
     forall x,
         plus1 (plus1 x) = x + 2.
 Proof. lia. Qed.
+
+Theorem plus1:
+    forall x,
+        plus1 (plus1 x) = x + 2.
+Proof. lia. Qed.
+
+Theorem plus1 :
+    forall x,
+        plus1 (plus1 x) = x + 2.
+Proof. lia. Qed.

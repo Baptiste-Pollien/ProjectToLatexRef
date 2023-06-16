@@ -28,10 +28,15 @@ def analyse_definition(data, definition):
         exit(1)
     name = definition['name']
 
-    if 'keyword' not in definition:
-        match = "\"^[ ]*{}\"".format(name)
+    if 'end_parse' in definition:
+        end = definition['end_parse']
     else:
-        match = "^[ ]*{}[ ]*{}".format(definition['keyword'], name)
+        end = ""
+
+    if 'keyword' not in definition:
+        match = "\"^[ ]*{}\"".format(name+end)
+    else:
+        match = "^[ ]*{}[ ]*{}".format(definition['keyword'], name+end)
 
     if 'file_type' not in definition:
         cmd=["grep", "-r", "-n", match,ppath]
@@ -56,26 +61,32 @@ def analyse_definition(data, definition):
         exit(1)
 
     if len(res) > 2 and ('file' not in definition):
-        print("[Warning] Multiple definition of {}. You should use the field \'file\'.".format(name))
+        print("[Warning] Multiple definition of {}. You should use the fields \'file\' or \'end_parse\'.".format(name))
 
     if (len(res) == 2) or ('file' not in definition):
         res = res[0].replace(ppath, '')\
                  .split(":")
     else:
         file = definition['file']
-        found = False
+        nb_found = 0
 
         for el in res:
             if file in el:
-                found = True
-                res = el.replace(ppath, '')\
-                        .split(":")
-                break
-        
-        if not found:
+                nb_found += 1
+
+                # Only get the first one, but continue for the warning
+                # message
+                if nb_found == 1:
+                    res = el.replace(ppath, '')\
+                            .split(":")
+
+
+        if nb_found == 0:
             print("[Error] {} not found...\n".format(name))
             exit(1)
-        
+
+        if nb_found > 1:
+            print("[Warning] Multiple definition of {} in file {}. You should use the field \'end_parse\'.".format(name, file))
 
     path = res[0]
     line = res[1]
